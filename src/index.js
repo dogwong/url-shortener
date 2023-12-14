@@ -43,6 +43,9 @@ async function init () {
   if (process.env.NODE_ENV == "development")
     console.log(`DB_ADDR = ${process.env["DB_ADDR"]}, DB = ${process.env["DB_DATABASE"]}, user = ${process.env["DB_USER"]}, pw = ${process.env["DB_PASSWORD"]}`);
 
+  console.log(`home page = ${process.env.HOMEPAGE || "(not set)"}`);
+
+  // connect to database
   try {
     sequelize = new Sequelize(process.env["DB_DATABASE"], process.env["DB_USER"], process.env["DB_PASSWORD"], {
       host: process.env["DB_ADDR"],
@@ -113,7 +116,9 @@ app.use('/',
         return res.status(404).send("URL not found");
       }
       
-      res.redirect(row.longUrl);
+      if (process.env.NODE_ENV != "development") {
+        res.redirect(row.longUrl);
+      }
       
       res.startTime("record", "record");
       row.increment({ click: 1 }).catch((err) => {
@@ -137,6 +142,9 @@ app.use('/',
       });
       res.endTime("record", "record");
 
+      if (process.env.NODE_ENV == "development") {
+        res.redirect(row.longUrl);
+      }
 
       // return res.send(shortUrl + "<br>length = " + (new TextEncoder().encode(shortUrl)).length);
       
@@ -148,9 +156,16 @@ app.use('/',
         res.status(500).send("Error");
       }
     }
+  }),
+  router.get("/", async (req, res) => {
+    if (process.env.HOMEPAGE) {
+      res.redirect(process.env.HOMEPAGE);
+    } else {
+      res.send("");
+    }
   })
 );
 
-process.on('exit',() => {
+process.on("exit",() => {
   console.log("process.exit() method is fired")
 })
