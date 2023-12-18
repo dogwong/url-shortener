@@ -116,8 +116,12 @@ app.use('/',
         return res.status(404).send("URL not found");
       }
       
-      if (process.env.NODE_ENV != "development") {
+      if (process.env.NODE_ENV != "development" || shortUrl == "healthcheck") {
         res.redirect(row.longUrl);
+      }
+      
+      if (shortUrl == "healthcheck") {
+        return;
       }
       
       res.startTime("record", "record");
