@@ -115,9 +115,19 @@ app.use('/',
         res.endTime("process");
         return res.status(404).send("URL not found");
       }
+
+      let redirectUrl = row.longUrl;
+
+      // La+ hardcoded handling
+      if (shortUrl.toLowerCase() == "la+donation") {
+        const nonce = (Math.floor(Math.random() * 10000) + "").padStart(4, '0');
+        const nonceString = encodeURIComponent(`+${nonce}+La+`);
+
+        redirectUrl += `?entry.1376497572=${nonceString}`;
+      }
       
       if (process.env.NODE_ENV != "development" || shortUrl == "healthcheck") {
-        res.redirect(row.longUrl);
+        res.redirect(redirectUrl);
       }
       
       if (shortUrl == "healthcheck") {
@@ -147,7 +157,7 @@ app.use('/',
       res.endTime("record", "record");
 
       if (process.env.NODE_ENV == "development") {
-        res.redirect(row.longUrl);
+        res.redirect(redirectUrl);
       }
 
       // return res.send(shortUrl + "<br>length = " + (new TextEncoder().encode(shortUrl)).length);
