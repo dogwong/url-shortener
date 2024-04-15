@@ -121,7 +121,7 @@ app.use('/',
       // La+ hardcoded handling
       if (shortUrl.toLowerCase() == "la+donation") {
         const nonce = (Math.floor(Math.random() * 10000) + "").padStart(4, '0');
-        const nonceString = encodeURIComponent(`+${nonce}+La+`);
+        const nonceString = encodeURIComponent(`+${nonce}+La+眾籌`);
 
         redirectUrl += `?entry.1376497572=${nonceString}`;
       }
