@@ -7,6 +7,9 @@ const fs = require("fs");
 const validUrl = require("valid-url");
 const geoip = require("geoip-lite");
 const isbot = require("isbot");
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+dayjs.extend(utc);
 
 // variables
 /** @type {import("sequelize").Sequelize} */
@@ -124,6 +127,9 @@ app.use('/',
         const nonceString = encodeURIComponent(`+${nonce}+La+眾籌`);
 
         redirectUrl += `?entry.1376497572=${nonceString}`;
+      } else if (shortUrl.toLowerCase() == "la+hhkdon") {
+        const timeString = dayjs().utcOffset(8).format("YYYY-MM-DD+HH:mm");
+        redirectUrl += `?entry.466567020=Hololive.HK&entry.1939319294=${timeString}`;
       }
       
       if (process.env.NODE_ENV != "development" || shortUrl == "healthcheck") {
