@@ -130,6 +130,12 @@ app.use('/',
       } else if (shortUrl.toLowerCase() == "la+hhkdon") {
         const timeString = dayjs().utcOffset(8).format("YYYY-MM-DD+HH:mm");
         redirectUrl += `?entry.466567020=Hololive.HK&entry.1939319294=${timeString}`;
+      } else if (shortUrl.toLowerCase() == "mr24donation") {
+        // marine hardcoded handling
+        const nonce = (Math.floor(Math.random() * 10000) + "").padStart(4, '0');
+        const nonceString = encodeURIComponent(`${nonce}-2024 Marine`);
+        const timeString = dayjs().utcOffset(8).format("YYYY-MM-DD+HH:mm");
+        redirectUrl += `?entry.1376497572=${nonceString}&entry.1939319294=${timeString}`;
       }
       
       if (process.env.NODE_ENV != "development" || shortUrl == "healthcheck") {
