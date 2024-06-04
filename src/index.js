@@ -136,6 +136,9 @@ app.use('/',
         const nonceString = encodeURIComponent(`${nonce}-Marine2024`);
         const timeString = dayjs().utcOffset(8).format("YYYY-MM-DD+HH:mm");
         redirectUrl += `?entry.1376497572=${nonceString}&entry.1939319294=${timeString}`;
+      } else if (shortUrl.toLowerCase() == "mr24hhkdon") {
+        const timeString = dayjs().utcOffset(8).format("YYYY-MM-DD+HH:mm");
+        redirectUrl += `?entry.466567020=Hololive.HK&entry.1939319294=${timeString}`;
       }
       
       if (process.env.NODE_ENV != "development" || shortUrl == "healthcheck") {
